@@ -4,6 +4,10 @@ project(ChatDemo LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Force static libraries for all subprojects
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libraries" FORCE)
+
+# Minimal-Middleware
 include(FetchContent)
 FetchContent_Declare(
   mmw
@@ -12,10 +16,22 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(mmw)
 
-find_package(wxWidgets REQUIRED COMPONENTS core base)
+# wxWidgets from source
+set(wxBUILD_SHARED OFF CACHE BOOL "")
+set(wxBUILD_SAMPLES OFF CACHE BOOL "")
+set(wxBUILD_TESTS OFF CACHE BOOL "")
+set(wxBUILD_EXAMPLES OFF CACHE BOOL "")
+set(wxBUILD_PRECOMP OFF CACHE BOOL "")
 
-include(${wxWidgets_USE_FILE})
+add_subdirectory(third_party/wxWidgets EXCLUDE_FROM_ALL)
 
+# Add executable
 add_executable(chatdemo MmwChat.cpp)
-target_link_libraries(chatdemo PRIVATE ${wxWidgets_LIBRARIES} mmw::mmw)
 
+# Link against wxWidgets and MMW
+# Using CMake target provided by wxWidgets
+target_link_libraries(chatdemo PRIVATE
+    wx::base
+    wx::core
+    mmw::mmw
+)
