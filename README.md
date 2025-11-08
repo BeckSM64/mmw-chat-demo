@@ -35,7 +35,7 @@ make
 ```
 
 ## Building for Windows
-If you're using Windows, I'm sorry, but you'll have to build wxWidgets from source since vcpkg seems to fail on some of its dependencies.
+If you're using Windows, I'm sorry, but you'll have to build wxWidgets from source since vcpkg seems to fail on some of its dependencies. It's going to take a bit to build. I'm talking like 20 minutes. wxWidgets is very large.
 
 First, use vcpkg to install dependencies for the broker
 ```bash
@@ -46,10 +46,12 @@ Then you can build the application
 ```bash
 mkdir -p build/
 cd build/
-cmake ../ -DBUILD_BROKER=ON -DCMAKE_TOOLCHAIN_FILE=C:/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
+cmake ../ -DBUILD_BROKER=ON -DCMAKE_TOOLCHAIN_FILE=C:/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake -G "Unix Makefiles"
 make
 ```
-Make sure you pass the path to your cmake toolchain file to cmake when you build.
+Make sure you pass the path to your cmake toolchain file for vcpkg to cmake when you build.
 
 ## Running the demo
 Running the build commands above should have generated the ```chatdemo``` application in the current directory, as well as the ```broker``` in ```_deps/mmw-build/```. Run the broker and then as many chatdemo instances as you'd like.
+
+![Cross Platform Chat Windows](images/cross_platform_chat.png)

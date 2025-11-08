@@ -7,9 +7,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Force static libraries for all subprojects
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libraries" FORCE)
 
-# Make wxWidgets visible
-find_package(wxWidgets REQUIRED COMPONENTS core base)
-include(${wxWidgets_USE_FILE})
+if(Unix)
+  # Make wxWidgets visible
+  find_package(wxWidgets REQUIRED COMPONENTS core base)
+  include(${wxWidgets_USE_FILE})
+endif(Unix)
 
 # Minimal-Middleware
 include(FetchContent)
